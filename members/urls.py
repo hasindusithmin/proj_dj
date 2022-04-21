@@ -6,5 +6,6 @@ urlpatterns = [
     path('all',views.read,name='return all members'),
     path('one/<int:id>',views.read_one,name='return a memebers'),
     path('add',views.create,name='create a memeber'),
-    path('edit/<int:id>',views.update,name='update a member')
+    path('edit/<int:id>',views.update,name='update a member'),
+    path('del/<int:id>',views.delete,name='delete a member')
 ]

@@ -31,12 +31,7 @@ def read_one(req,id):
                 "msg":"member not found"
             }
         )
-def read(req):
-    return JsonResponse(
-        list(
-            Members.objects.all().values()
-        )
-    )
+
 def create(req):
     body = json.loads(req.body)
     firstname = body['firstname']
@@ -59,3 +54,10 @@ def update(req,id):
         "update":True
     })
 
+def delete(req,id):
+    try:
+        member = Members.objects.get(id=id)
+        member.delete()
+        return JsonResponse({"delete":True})
+    except:
+        return JsonResponse({"msg":"member not found"})

@@ -6,7 +6,14 @@ import json
 # Create your views here.
 def root(req):
     home = loader.get_template('index.html')
-    return HttpResponse(home.render())
+    return HttpResponse(
+        home.render(
+            {
+                'members':list(Members.objects.all().values())
+            },
+            req
+        )
+    )
 
 def read(req):
     return JsonResponse(

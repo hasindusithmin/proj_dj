@@ -1,12 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Members | Home</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script>
+        const write_session = (id)=>{
+            document.querySelector('table').className = "w3-hide"
+            document.getElementById("edit_form").className = "w3-border";
+            fetch(`one/${id}`)
+                .then(res=>res.json())
+                    .then(data=>{
+                        const {firstname,lastname} = data;
+                        sessionStorage.setItem('firstname',firstname)
+                        sessionStorage.setItem('lastname',lastname)
+                        document.querySelector('#edit_form input[name=firstname]').placeholder = firstname;
+                        document.querySelector('#edit_form input[name=lastname]').placeholder = lastname;
+                    })
+        }
+        
+    </script>
 </head>
+
 <body>
-    
+    <table class="w3-table-all">
+        <tr class="w3-green">
+            <th>firstname</th>
+            <th>lastname</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for x in members %}
+        <tr id="{{x.id}}">
+            <td>{{ x.firstname }}</td>
+            <td>{{ x.lastname }}</td>
+            <td><button id="edit" onclick="write_session('{{x.id}}')" >edit</button></td>
+            <td><button>delete</button></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="w3-border w3-hide" id="edit_form">
+        <div class="w3-container w3-blue">
+            <h2>Input Form</h2>
+        </div>
+        <form class="w3-container">
+            <div class="w3-section">
+                <label>First Name</label>
+                <input class="w3-input" type="text" name="firstname">
+            </div>
+            <div class="w3-section">
+                <label>Last Name</label>
+                <input class="w3-input" type="text" name="lastname">
+            </div>
+            <div class="w3-section">
+                <input class="w3-input" type="submit">
+            </div>
+        </form>
+    </div>
+    <script >
+        document.querySelector('#edit_form form').onsubmit = event=>{
+            event.preventDefault();
+            const firstname = event.target.firstname.value === "" ? sessionStorage.getItem('firstname') : sessionStorage.getItem('firstname') !== event.target.firstname.value  ? event.target.firstname.value : sessionStorage.getItem('firstname');
+            const lastname = event.target.lastname.value === "" ? sessionStorage.getItem('lastname') : sessionStorage.getItem('lastname') !== event.target.lastname.value  ? event.target.lastname.value : sessionStorage.getItem('lastname');
+            console.log(
+                {
+                    firstname,
+                    lastname
+                }
+            );
+        }
+    </script>
 </body>
+
 </html>

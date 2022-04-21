@@ -1,6 +1,15 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-
+from django.http import HttpResponse,JsonResponse
+from django.template import loader
+from .models import Members
 # Create your views here.
 def root(req):
-    return HttpResponse("Hello World")
+    home = loader.get_template('index.html')
+    return HttpResponse(home.render())
+
+def get_member(req):
+    return JsonResponse(
+        list(
+            Members.objects.all().values()
+        )
+    )

@@ -11,5 +11,6 @@ def get_member(req):
     return JsonResponse(
         list(
             Members.objects.all().values()
-        )
+        ),
+        safe=False
     )
